@@ -14,12 +14,16 @@ model User {
   password      String
 
   @@map("users")
+  @@index([id])  
   @@index([email])  
 }
 
 model Wallet {
   id            Int      @id @default(autoincrement())
-  tag?          String
+  tag           String?
   chain         String
   address       String
+
+  @@map("wallets")
+  @@index([id])  
 }
