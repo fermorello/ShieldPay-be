@@ -18,7 +18,7 @@ export class AuthMiddleware extends ConfigServer {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
-      return res.status(401).send('No token provided');
+      return this.httpResponse.Unauthorized(res, 'No token provided.');
     }
 
     try {
@@ -34,6 +34,10 @@ export class AuthMiddleware extends ConfigServer {
         (err, decoded) => {
           if (err) {
             return this.httpResponse.Unauthorized(res, err.message);
+          }
+
+          if (!decoded) {
+            return this.httpResponse.Unauthorized(res, 'Not authenticated.');
           }
 
           req.user = decoded as User;
