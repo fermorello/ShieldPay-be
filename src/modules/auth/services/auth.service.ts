@@ -4,16 +4,23 @@ import { ConfigServer } from '../../../config/config';
 import { UserService } from '../../users/services/user.service';
 import { User } from '../../users/entities/user.entity';
 import { AppError } from '../../../shared/errors/app.errors';
+import ICache from '../../../config/cache.interface';
+import { IAuthService } from '../interfaces/auth.interface';
+import { SignInDTO } from '../dto/signin.dto';
 
-export class AuthService extends ConfigServer {
-  constructor(private readonly userService: UserService) {
+export class AuthService extends ConfigServer implements IAuthService {
+  constructor(
+    private readonly userService: UserService,
+    private readonly blacklistCache: ICache
+  ) {
     super();
   }
 
   async signIn(
-    email: string,
-    password: string
+    body: SignInDTO
   ): Promise<{ accessToken: string; user: Omit<User, 'password'> }> {
+    const { email, password } = body;
+
     const user: User | null = await this.validateUser(email, password);
 
     if (!user) {
@@ -25,6 +32,10 @@ export class AuthService extends ConfigServer {
     const payload = this.generateJWT(rest);
 
     return payload;
+  }
+
+  async signOut(jwt: string, userId: User['id']): Promise<boolean> {
+    return this.blacklistCache.set(jwt, userId, 86400);
   }
 
   private generateJWT(user: Omit<User, 'password'>): {
