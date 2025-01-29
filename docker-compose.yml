@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    container_name: shieldpay-postgres
+    container_name: shieldpay
     image: postgres:latest
     ports:
       - '5432:5432'
