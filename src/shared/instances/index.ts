@@ -17,8 +17,10 @@ export const nodeCacheImp = new NodeCacheAdapter();
 
 export const authMiddleware = new AuthMiddleware(nodeCacheImp);
 
-const walletPostgresRepository = new WalletPostgresRepository(prismaClient);
-export const WalletServiceImp = new WalletService(walletPostgresRepository);
 
 const chainPostgresRepository = new ChainPostgresRepository(prismaClient);
 export const ChainServiceImp = new ChainService(chainPostgresRepository);
+
+
+const walletPostgresRepository = new WalletPostgresRepository(prismaClient);
+export const WalletServiceImp = new WalletService(walletPostgresRepository, ChainServiceImp);
