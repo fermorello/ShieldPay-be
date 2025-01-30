@@ -1,4 +1,5 @@
 import { BaseService } from '../../../config/base.service';
+import { ChainService } from '../../chains/services/chain.service';
 import { User } from '../../users/entities/user.entity';
 import { CreateWalletDTO } from '../dto/createWallet.dto';
 import { UpdateWalletDTO } from '../dto/updateWallet.dto';
@@ -12,7 +13,10 @@ export class WalletService
   extends BaseService<Wallet, IWalletRepository>
   implements IWalletService
 {
-  constructor(repository: IWalletRepository) {
+  constructor(
+    repository: IWalletRepository,
+    private readonly chainService: ChainService
+  ) {
     super(repository);
   }
   async findOne(id: Wallet['id']): Promise<Wallet | null> {
@@ -34,6 +38,12 @@ export class WalletService
     user_id: string,
     newWallet: CreateWalletDTO
   ): Promise<Wallet | null> {
+    const existsChain = await this.chainService.findOne(newWallet.chain_id);
+    const existsWallet = await this.repository.findWalletsByWalletAddress(
+      newWallet.address
+    );
+    if (!existsChain) throw new Error('Chain does not exists.');
+    if (existsWallet) throw new Error('Wallet allready exists.');
     return this.repository.create({
       user_id,
       ...newWallet,

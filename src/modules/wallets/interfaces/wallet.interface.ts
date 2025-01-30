@@ -15,6 +15,7 @@ export interface IWallet {
 
 export interface IWalletRepository extends IRepository<Wallet> {
   findWalletsByUserId(user_id: User['id']): Promise<Wallet[] | []>;
+  findWalletsByWalletAddress(address: Wallet['address']): Promise<Wallet[] | []>;
   findOneWalletByWalletIdAndUserId(
     wallet_id: Wallet['id'],
     user_id: User['id']
@@ -25,6 +26,7 @@ export interface IWalletRepository extends IRepository<Wallet> {
 export interface IWalletService {
   findOne(id: Wallet['id']): Promise<Wallet | null>;
   findWalletsByUserId(user_id: User['id']): Promise<Wallet[] | []>;
+  // findWalletsByWalletAddress(wallet: Wallet['address']): Promise<Wallet[] | []>;
   findOneWalletByWalletIdAndUserId(
     wallet_id: Wallet['id'],
     user_id: User['id']

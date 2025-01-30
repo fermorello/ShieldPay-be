@@ -37,6 +37,14 @@ export class WalletPostgresRepository implements IWalletRepository {
     }
   }
 
+  findWalletsByWalletAddress(
+    address: Wallet['address']
+  ): Promise<Wallet[] | []> {
+    return this.prisma.wallet.findUnique({
+      where: { address },
+    });
+  }
+
   async findOne(id: string | number): Promise<Wallet | null> {
     try {
       const wallet = await this.prisma.wallet.findUnique({ where: { id } });
