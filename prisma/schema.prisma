@@ -22,11 +22,22 @@ model User {
 model Wallet {
   id            Int      @id @default(autoincrement())
   tag           String?
-  chain         String
   address       String
   user_id       Int
-  user          User     @relation(fields: [user_id], references: [id]) // Relación con el modelo User
+  user          User     @relation(fields: [user_id], references: [id]) 
+  chain_id      Int      
+  chain         Chain    @relation(fields: [chain_id], references: [id]) 
 
   @@map("wallets")
+  @@index([id])  
+}
+
+model Chain {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String
+  wallets       Wallet[] 
+
+  @@map("chains")
   @@index([id])  
 }
