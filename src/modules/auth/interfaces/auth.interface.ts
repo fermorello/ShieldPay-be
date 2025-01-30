@@ -1,7 +1,7 @@
 import { User } from '../../users/entities/user.entity';
+import { SignInDTO } from '../dto/signin.dto';
 
 export interface IAuthService {
-  register(registerDto: RegisterDTO): Promise<{ user: User; token: string }>;
-  signIn(signInDto: SignInDTO): Promise<{ user: User; token: string }>;
-  signOut(userId: User['id']): Promise<boolean>;
+  signIn(signInDto: SignInDTO): Promise<{ accessToken: string; user: Omit<User, 'password'> }>;
+  signOut(jwt: string, userId: User['id']): Promise<boolean>;
 }

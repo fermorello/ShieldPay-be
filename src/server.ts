@@ -2,6 +2,10 @@ import morgan from 'morgan';
 import express from 'express';
 import { ConfigServer } from './config/config';
 import { ErrorMiddleware } from './shared/middleware/error.middleware';
+import UserRouter from './modules/users/router/user.router';
+import AuthRouter from './modules/auth/routes/auth.router';
+import WalletRouter from './modules/wallets/router/wallets.router';
+import ChainRouter from './modules/chains/router/chain.router';
 
 class ServerBootstrap extends ConfigServer {
   public app: express.Application = express();
@@ -13,13 +17,18 @@ class ServerBootstrap extends ConfigServer {
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(morgan('dev'));
 
-    // this.app.use('/api', this.routers());
+    this.app.use('/api', this.routers());
     this.app.use(ErrorMiddleware.error);
     this.listen();
   }
 
   public routers(): Array<express.Router> {
-    return [];
+    return [
+      new UserRouter().router,
+      new AuthRouter().router,
+      new WalletRouter().router,
+      new ChainRouter().router,
+    ];
   }
 
   public listen(): void {
