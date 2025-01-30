@@ -14,3 +14,16 @@ CREATE UNIQUE INDEX "chains_symbol_key" ON "chains"("symbol");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "wallets_address_key" ON "wallets"("address");
+
+INSERT INTO "chains" ("name", "symbol", "description") VALUES
+  ('Ethereum', 'ETH', 'Ethereum Chain'),
+  ('Bitcoin', 'BTC', 'Bitcoin Chain'),
+  ('Polygon', 'MATIC', 'Polygon Chain');
+
+INSERT INTO "users" ("email", "password") VALUES
+  ('user1@example.com', 'hashedpassword1'),
+  ('user2@example.com', 'hashedpassword2');
+
+INSERT INTO "wallets" ("tag", "address", "user_id", "chain_id") VALUES
+  ('Main Wallet', '0xC095f52b32C7AF08GC9C6e0321Ba4a34377ef640', 1, 1),
+  ('Savings Wallet', '0xC095f52b45C7AF08b69C6e0321Ba4a34377ef640', 2, 2);
