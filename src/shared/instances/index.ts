@@ -5,6 +5,8 @@ import NodeCacheAdapter from '../cache/implementations/node-cache.cache';
 import { AuthMiddleware } from '../middleware/authenticate.middleware';
 import { WalletPostgresRepository } from '../../modules/wallets/repositories/wallet.potgres.repository';
 import { WalletService } from '../../modules/wallets/services/wallet.service';
+import { ChainPostgresRepository } from '../../modules/chains/repositories/chain.postgres.repository';
+import { ChainService } from '../../modules/chains/services/chain.service';
 
 const prismaClient = new PrismaClient();
 
@@ -17,3 +19,6 @@ export const authMiddleware = new AuthMiddleware(nodeCacheImp);
 
 const walletPostgresRepository = new WalletPostgresRepository(prismaClient);
 export const WalletServiceImp = new WalletService(walletPostgresRepository);
+
+const chainPostgresRepository = new ChainPostgresRepository(prismaClient);
+export const ChainServiceImp = new ChainService(chainPostgresRepository);
