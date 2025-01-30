@@ -47,6 +47,7 @@ export class WalletPostgresRepository implements IWalletRepository {
   }
 
   async create(entity: Wallet | Partial<Wallet>): Promise<Wallet | null> {
+    console.log(entity);
     try {
       const newWallet = await this.prisma.wallet.create({
         data: {
@@ -58,6 +59,7 @@ export class WalletPostgresRepository implements IWalletRepository {
 
       return newWallet;
     } catch (error) {
+      console.error(error);
       throw new DatabaseError('Error creating wallet in the database');
     }
   }

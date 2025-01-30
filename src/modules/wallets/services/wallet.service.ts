@@ -34,7 +34,10 @@ export class WalletService
     user_id: string,
     newWallet: CreateWalletDTO
   ): Promise<Wallet | null> {
-    return this.repository.create({ user_id, ...newWallet });
+    return this.repository.create({
+      user_id,
+      ...newWallet,
+    });
   }
 
   update(

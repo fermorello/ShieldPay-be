@@ -1,4 +1,5 @@
 import IRepository from '../../../config/repository.interface';
+import { Chain } from '../../chains/entities/chain.entity';
 import { User } from '../../users/entities/user.entity';
 import { CreateWalletDTO } from '../dto/createWallet.dto';
 import { UpdateWalletDTO } from '../dto/updateWallet.dto';
@@ -8,7 +9,7 @@ export interface IWallet {
   id: string;
   user_id: User['id'];
   tag?: string;
-  chain: string;
+  chain_id: Chain['id'];
   address: string;
 }
 
