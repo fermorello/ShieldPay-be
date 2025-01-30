@@ -5,8 +5,30 @@ services:
     image: postgres:latest
     ports:
       - '5432:5432'
+    volumes:
+      - /data/postgres:/data/postgres
+      - ./db/db.sql:/docker-entrypoint-initdb.d/db.sql
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: shieldpay
-      
+    networks:
+      - postgres
+
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
