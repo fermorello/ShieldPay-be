@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --files src/server.ts"
+    "dev": "ts-node-dev --files src/server.ts",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
