@@ -12,7 +12,7 @@ model User {
   id            Int      @id @default(autoincrement())
   email         String   @unique
   password      String
-  wallets       Wallet[] // Aquí se define la relación uno a muchos
+  wallets       Wallet[] 
 
   @@map("users")
   @@index([id])  
@@ -22,7 +22,7 @@ model User {
 model Wallet {
   id            Int      @id @default(autoincrement())
   tag           String?
-  address       String
+  address       String   @unique
   user_id       Int
   user          User     @relation(fields: [user_id], references: [id]) 
   chain_id      Int      
@@ -34,8 +34,9 @@ model Wallet {
 
 model Chain {
   id            Int      @id @default(autoincrement())
-  name          String
+  name          String   @unique
   description   String
+  symbol        String   @unique
   wallets       Wallet[] 
 
   @@map("chains")
