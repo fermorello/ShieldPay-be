@@ -6,7 +6,6 @@ import { Chain } from '../entities/chain.entity';
 export class ChainPostgresRepository implements IChainRepository {
   constructor(readonly prisma: PrismaClient) {}
 
-
   async find(query?: { [key: string]: unknown }): Promise<Chain[] | null> {
     try {
       const findMany = await this.prisma.chain.findMany({ where: query });
@@ -27,15 +26,28 @@ export class ChainPostgresRepository implements IChainRepository {
       throw new DatabaseError('Error retrieving chain from database');
     }
   }
+  async findOneByName(name: string): Promise<Chain | null> {
+    try {
+      const chain = await this.prisma.chain.findUnique({
+        where: { name },
+      });
+      if (!chain) return null;
+      return { ...chain };
+    } catch (e) {
+      throw new DatabaseError('Error retrieving chain from database');
+    }
+  }
+
   async create(entity: Partial<Chain>): Promise<Chain | null> {
-    const { name, description } = entity;
+    const { name, description, symbol } = entity;
     try {
       const newChain = await this.prisma.chain.create({
-        data: { name: name!, description: description! },
+        data: { name: name!, description: description!, symbol: symbol! },
       });
       if (!newChain) return null;
       return { ...newChain };
     } catch (e) {
+      console.error(e);
       throw new DatabaseError('Error creating chain in database');
     }
   }

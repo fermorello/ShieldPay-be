@@ -19,11 +19,19 @@ export class ChainService
     return this.repository.findOne(id);
   }
 
-  async create(
-    entity: CreateChainDTO
-  ): Promise<Omit<Chain, 'password'> | null> {
-    const { name, description } = entity;
-    const newChain = await this.repository.create({ name, description });
+  findOneByName(name: Chain['name']): Promise<Chain | null> {
+    return this.repository.findOneByName(name);
+  }
+
+  async create(entity: CreateChainDTO): Promise<Chain | null> {
+    const { name, description, symbol } = entity;
+    const exists = await this.repository.findOneByName(name);
+    if (exists) throw new Error('Chain allready exists');
+    const newChain = await this.repository.create({
+      name,
+      description,
+      symbol,
+    });
     return newChain;
   }
 
