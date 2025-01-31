@@ -13,12 +13,16 @@ export class WalletPostgresRepository implements IWalletRepository {
 
   async findWalletsByUserId(user_id: User['id']): Promise<Wallet[] | []> {
     try {
-      const wallets = await this.prisma.wallet.findMany({ where: { user_id } });
+      const wallets = await this.prisma.wallet.findMany({
+        where: { user_id },
+        include: { chain: true },
+      });
 
       if (!wallets.length) return [];
 
       return wallets;
     } catch (error) {
+      console.log(error);
       throw new DatabaseError('Error retrieving wallets from database');
     }
   }
@@ -55,7 +59,6 @@ export class WalletPostgresRepository implements IWalletRepository {
   }
 
   async create(entity: Wallet | Partial<Wallet>): Promise<Wallet | null> {
-    console.log(entity);
     try {
       const newWallet = await this.prisma.wallet.create({
         data: {
