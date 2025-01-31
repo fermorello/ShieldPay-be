@@ -129,7 +129,7 @@ DATABASE_URL="postgresql://user:password@**postgres**:5432/db_name?schema=public
 docker-compose up --build
 ```
 
-## Endpoints (/api)
+## Endpoints (/api) [Postman collection file available]
 
 ### Authentication
 
@@ -139,18 +139,26 @@ Signs in a user and returns a JWT token for authentication.
 Input:
 ```
 {
-  "email": "user@example.com",
-  "password": "yourpassword"
+    "email": "user1@example.com",
+    "password": "hashedpassword1"
 }
 ```
 Output:
 ```
 {
-  "token": "your-jwt-token"
+    "status": 200,
+    "statusMsg": "Success",
+    "data": {
+        "accessToken": "",
+        "user": {
+            "id": 1,
+            "email": "user1@example.com"
+        }
+    }
 }
 ```
 
-**POST /auth/signout**
+**POST /auth/logout [Requires JWT]**
 
 Signs out a user (removes the JWT token).
 Input: Authorization token (JWT).
@@ -158,7 +166,7 @@ Output: Success or error response.
 
 ### Users CRUD
 
-**POST users/register**
+**POST /users/register**
 
 Create a new user
 
@@ -172,7 +180,8 @@ Input:
 
 ### Chain CRUD
 
-Create a new chain
+***POST /chains**
+Create a new chain 
 
 Input:
 ```
@@ -183,10 +192,9 @@ Input:
 }
 ```
 
-
 ### Wallets CRUD
 
-**GET /wallets**
+**GET /wallets**  [Requires JWT]
 
 Retrieves all wallets for the authenticated user.
 Input: Authorization token (JWT).
@@ -203,7 +211,7 @@ Output:
 ]
 ```
 
-**POST /wallets**
+**POST /wallets**  [Requires JWT]
 
 Creates a new wallet for the authenticated user.
 Input:
@@ -217,7 +225,7 @@ Input:
 
 Output: Success or error response.
 
-**GET /wallets/:id**
+**GET /wallets/:id** [Requires JWT]
 
 Retrieves details of a specific wallet by ID.
 Input: Wallet ID and Authorization token (JWT).
@@ -232,7 +240,7 @@ Output:
 }
 ```
 
-**PUT /wallets/:id**
+**PUT /wallets/:id**  [Requires JWT]
 
 Updates a wallet for the authenticated user.
 Input:
@@ -246,7 +254,7 @@ Input:
 
 Output: Success or error response.
 
-**DELETE /wallets/:id**
+**DELETE /wallets/:id**  [Requires JWT]
 
 Deletes a wallet by ID.
 
