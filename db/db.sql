@@ -25,8 +25,8 @@ INSERT INTO "chains" ("name", "symbol", "description") VALUES
   ('Polygon', 'MATIC', 'Polygon Chain');
 
 INSERT INTO "users" ("email", "password") VALUES
-  ('user1@example.com', 'hashedpassword1'),
-  ('user2@example.com', 'hashedpassword2');
+  ('user1@example.com', '$2a$10$1gcEQDfZyT7PN9FAuL9Uuutx8o8BrL30EM0iaEhhMPS4jREJuRj.a'),
+  ('user2@example.com', '$2a$10$1gcEQDfZyT7PN9FAuL9Uuutx8o8BrL30EM0iaEhhMPS4jREJuRj.a');
 
 INSERT INTO "wallets" ("tag", "address", "user_id", "chain_id") VALUES
   ('Main Wallet', '0xC095f52b32C7AF08GC9C6e0321Ba4a34377ef640', 1, 1),
